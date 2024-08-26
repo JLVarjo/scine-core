@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Release 6.0.1
+-------------
+
+- Small changes to the README
+
 Release 6.0.0
 -------------
 
