@@ -1,7 +1,7 @@
 /**
  * @file ModuleManager.h
  * @copyright This code is licensed under the 3-clause BSD license.\n
- *            Copyright ETH Zurich, Laboratory of Physical Chemistry, Reiher Group.\n
+ *            Copyright ETH Zurich, Department of Chemistry and Applied Biosciences, Reiher Group.\n
  *            See LICENSE.txt for details.
  */
 
@@ -52,10 +52,7 @@ class CORE_EXPORT ModuleManager {
    *
    * @return Returns a reference to the ModuleManager instance.
    */
-  static ModuleManager& getInstance() {
-    static ModuleManager instance;
-    return instance;
-  }
+  static ModuleManager& getInstance();
 
   /**
    * @brief Deleted copy constructor, as required by the singleton design pattern.
@@ -106,6 +103,8 @@ class CORE_EXPORT ModuleManager {
    *   "moduleFactory" that is a nullary function yielding a shared_ptr<Module>
    */
   void load(boost::dll::shared_library library);
+
+  void load(std::shared_ptr<Module> module);
 
   /**
    * @brief Get a list of all loaded Modules.

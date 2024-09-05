@@ -1,7 +1,7 @@
 /**
  * @file ModuleManager.cpp
  * @copyright This code is licensed under the 3-clause BSD license.\n
- *            Copyright ETH Zurich, Laboratory of Physical Chemistry, Reiher Group.\n
+ *            Copyright ETH Zurich, Department of Chemistry and Applied Biosciences, Reiher Group.\n
  *            See LICENSE.txt for details.
  */
 
@@ -12,12 +12,21 @@
 namespace Scine {
 namespace Core {
 
+ModuleManager& ModuleManager::getInstance() {
+  static ModuleManager instance;
+  return instance;
+}
+
 void ModuleManager::load(const boost::filesystem::path& libraryPath) {
   _impl->load(libraryPath);
 }
 
 void ModuleManager::load(boost::dll::shared_library library) {
   _impl->load(std::move(library));
+}
+
+void ModuleManager::load(std::shared_ptr<Module> module) {
+  _impl->load(module);
 }
 
 std::vector<std::string> ModuleManager::getLoadedModuleNames() const {

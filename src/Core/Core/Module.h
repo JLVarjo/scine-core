@@ -1,7 +1,7 @@
 /**
  * @file Module.h
  * @copyright This code is licensed under the 3-clause BSD license.\n
- *            Copyright ETH Zurich, Laboratory of Physical Chemistry, Reiher Group.\n
+ *            Copyright ETH Zurich, Department of Chemistry and Applied Biosciences, Reiher Group.\n
  *            See LICENSE.txt for details.
  */
 #ifndef CORE_MODULE_H_
@@ -96,7 +96,7 @@ class Module {
    *   to the desired interface interface.
    */
   virtual boost::any get(const std::string& /* interface */, const std::string& /* model */
-                         ) const = 0;
+  ) const = 0;
 
   /*!
    * @brief Checks if this module supplies a particular model of an interface.
@@ -109,7 +109,7 @@ class Module {
    * @endcode
    */
   virtual bool has(const std::string& /* interface */, const std::string& /* model */
-                   ) const noexcept = 0;
+  ) const noexcept = 0;
 
   /*!
    * @brief Announces all interfaces of which the module provides at least one model

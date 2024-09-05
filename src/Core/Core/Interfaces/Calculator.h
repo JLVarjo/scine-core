@@ -1,7 +1,7 @@
 /**
  * @file Calculator.h
  * @copyright This code is licensed under the 3-clause BSD license.\n
- *            Copyright ETH Zurich, Laboratory of Physical Chemistry, Reiher Group.\n
+ *            Copyright ETH Zurich, Department of Chemistry and Applied Biosciences, Reiher Group.\n
  *            See LICENSE.txt for details.
  */
 #ifndef CORE_CALCULATOR_H_
@@ -27,7 +27,10 @@ namespace Core {
  * @class Calculator Calculator.h
  * @brief The interface for all classes running electronic structure calculations.
  */
-class Calculator : public StateHandableObject, public ObjectWithStructure, public ObjectWithLog {
+class Calculator : public StateHandableObject,
+                   public ObjectWithStructure,
+                   public ObjectWithLog,
+                   public std::enable_shared_from_this<Calculator> {
  public:
   static constexpr const char* interface = "calculator";
 
@@ -71,8 +74,8 @@ class Calculator : public StateHandableObject, public ObjectWithStructure, publi
    * if needed, implement a custom copy constructor. This reduces boilerplate
    * code.
    */
-  std::unique_ptr<Core::Calculator> clone() const {
-    return std::unique_ptr<Core::Calculator>(this->cloneImpl());
+  std::shared_ptr<Core::Calculator> clone() const {
+    return this->cloneImpl();
   }
   /**
    * @brief Accessor for the settings.
@@ -116,13 +119,18 @@ class Calculator : public StateHandableObject, public ObjectWithStructure, publi
       return calculatorPtr->supportsMethodFamily(methodFamily);
     };
   }
+  /**
+   * @brief Whether the calculator has no underlying Python code and can therefore
+   * release the global interpreter lock in Python bindings
+   */
+  virtual bool allowsPythonGILRelease() const = 0;
 
  private:
   /*
    * Implementation of the clone() function, pure virtual private method.
    * It returns a pointer to allow for covariant return types in inheritance.
    */
-  virtual Core::Calculator* cloneImpl() const = 0;
+  virtual std::shared_ptr<Core::Calculator> cloneImpl() const = 0;
 };
 
 } /* namespace Core */

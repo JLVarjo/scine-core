@@ -1,6 +1,29 @@
 Changelog
 =========
 
+Release 6.0.1
+-------------
+
+- Small changes to the README
+
+Release 6.0.0
+-------------
+
+- Improve support for compilation on Windows (MSVC)
+- Update address in license
+
+Release 5.0.0
+-------------
+
+- Allow for direct loading of modules
+
+Release 4.1.0
+-------------
+
+- Add new interface ``EmbeddingCalculator``. This class is derived from
+  the calculator class and allows for embedding calculations with different
+  underlying calculators.
+
 Release 4.0.2
 -------------
 

@@ -1,6 +1,6 @@
 /**
  * @copyright This code is licensed under the 3-clause BSD license.\n
- *            Copyright ETH Zurich, Laboratory of Physical Chemistry, Reiher Group.\n
+ *            Copyright ETH Zurich, Department of Chemistry and Applied Biosciences, Reiher Group.\n
  *            See LICENSE.txt for details.
  */
 
@@ -68,6 +68,8 @@ struct ModuleManager::Impl {
     }
     explicit LibraryAndModules(const boost::filesystem::path& libraryPath) : LibraryAndModules(tryLoad(libraryPath)) {
     }
+    explicit LibraryAndModules(ModulePtr module) : modules({module}) {
+    }
 
     boost::dll::shared_library library;
     ModuleList modules;
@@ -113,6 +115,17 @@ struct ModuleManager::Impl {
 
   //!@name Modification
   //!@{
+  void load(std::shared_ptr<Module> module) {
+    LibraryAndModules lib{module};
+
+    const bool alreadyLoaded = std::any_of(std::begin(lib.modules), std::end(lib.modules),
+                                           [&](const auto& modulePtr) -> bool { return moduleLoaded(modulePtr->name()); });
+
+    if (!alreadyLoaded) {
+      _sources.push_back(std::move(lib));
+    }
+  }
+
   void load(const boost::filesystem::path& libraryPath) {
     LibraryAndModules lib{libraryPath};
 
